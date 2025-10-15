@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nightcore Homepage</title>
+  <style>
+    /* Nightcore Single Image Fullscreen */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #000; /* fallback background */
+      position: relative;
+    }
+
+    .image-container {
+      position: relative;
+      max-width: 98vw;
+      max-height: 98vh;
+      width: 98vw;
+      height: 98vh;
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: 0 0 60px rgba(160, 220, 255, 0.2);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+      animation:
+        fadeIn 1.8s ease-out forwards,
+        floatMotion 8s ease-in-out 2s infinite;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.9;
+      filter: brightness(0.9) contrast(1.05);
+      transition: opacity 0.4s ease, filter 0.4s ease;
+    }
+
+    .image-container img:hover {
+      opacity: 1;
+      filter: brightness(1);
+    }
+
+    /* Caption optional */
+    .caption {
+      position: absolute;
+      bottom: 15px;
+      right: 20px;
+      font-size: 0.9rem;
+      color: #ccc;
+      opacity: 0;
+      animation: captionFade 2s ease-in 1s forwards;
+    }
+
+    /* ✨ Animations */
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px) scale(0.98); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes captionFade {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 0.7; transform: translateY(0); }
+    }
+
+    @keyframes floatMotion {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.01); }
+    }
+
+    @media (max-width: 768px) {
+      .image-container {
+        max-width: 98vw;
+        max-height: 90vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="image-container">
+    <img src="https://i.postimg.cc/2jb7NppY/rain-wall.jpg" alt="Nightcore Image" />
+    <div class="caption">✨ Nightcore Homepage ✨</div>
+  </div>
+</body>
+</html>
