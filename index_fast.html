@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nightcore Homepage</title>
   <style>
-    /* Nightcore Single Image Fullscreen */
+    /* Nightcore Fullscreen Image with Preload */
     * {
       margin: 0;
       padding: 0;
@@ -16,12 +16,26 @@
       height: 100%;
       width: 100%;
       font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+      background: #000; /* fallback for old browsers */
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
-      background: #000;
       position: relative;
+    }
+
+    /* Fullscreen placeholder */
+    #placeholder {
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.05);
+      animation: pulse 1.5s ease-in-out infinite;
+      z-index: 2;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.05; }
+      50% { opacity: 0.12; }
     }
 
     .image-container {
@@ -34,32 +48,30 @@
       overflow: hidden;
       box-shadow: 0 0 60px rgba(160, 220, 255, 0.2);
       backdrop-filter: blur(4px);
-      opacity: 0; /* initially hidden */
+      opacity: 0;
       transform: translateY(20px) scale(0.98);
+      z-index: 1;
       transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
     .image-container.loaded {
       opacity: 1;
       transform: translateY(0) scale(1);
-      animation: floatMotion 8s ease-in-out 0.5s infinite;
+      animation: floatMotion 8s ease-in-out 0.3s infinite;
     }
 
     .image-container img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 0.9;
       filter: brightness(0.9) contrast(1.05);
       transition: opacity 0.4s ease, filter 0.4s ease;
     }
 
     .image-container img:hover {
-      opacity: 1;
       filter: brightness(1);
     }
 
-    /* Caption */
     .caption {
       position: absolute;
       bottom: 15px;
@@ -74,25 +86,9 @@
       opacity: 0.7;
     }
 
-    /* Floating motion */
     @keyframes floatMotion {
       0%, 100% { transform: translateY(0) scale(1); }
       50% { transform: translateY(-10px) scale(1.01); }
-    }
-
-    /* Placeholder while loading */
-    .placeholder {
-      position: absolute;
-      inset: 0;
-      background: rgba(255, 255, 255, 0.05); /* soft glow effect */
-      z-index: 1;
-      border-radius: 30px;
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 0.05; }
-      50% { opacity: 0.12; }
     }
 
     @media (max-width: 768px) {
@@ -102,10 +98,11 @@
       }
     }
   </style>
-</head> 
+</head>
 <body>
+  <div id="placeholder"></div>
+
   <div class="image-container" id="container">
-    <div class="placeholder" id="placeholder"></div>
     <img src="https://i.postimg.cc/2jb7NppY/rain-wall.jpg" alt="Nightcore Image" id="mainImage" />
     <div class="caption">✨ Nightcore Homepage ✨</div>
   </div>
@@ -115,16 +112,15 @@
     const container = document.getElementById('container');
     const placeholder = document.getElementById('placeholder');
 
-    // Wait until image fully loads
+    // Wait for image to load fully
     img.onload = () => {
-      container.classList.add('loaded'); // triggers fade-in & floating
-      placeholder.style.display = 'none'; // remove placeholder
+      container.classList.add('loaded');       // fade-in & floating
+      placeholder.style.opacity = '0';         // fade out placeholder
+      setTimeout(() => placeholder.style.display = 'none', 600); // remove it after fade
     };
 
-    // In case image is cached and already loaded
-    if (img.complete) {
-      img.onload();
-    }
+    // If image is cached
+    if (img.complete) img.onload();
   </script>
 </body>
 </html>
